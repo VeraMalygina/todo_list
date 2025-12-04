@@ -1,20 +1,31 @@
 
-###> symfony/framework-bundle ###
+### Symfony ###
 /.env.local
 /.env.local.php
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
+/var/cache/
+/var/log/
 /vendor/
-###< symfony/framework-bundle ###
 
-###> phpunit/phpunit ###
+### PHPUnit ###
 /phpunit.xml
-/.phpunit.cache/
-###< phpunit/phpunit ###
+/.phpunit.result.cache
 
-###> symfony/asset-mapper ###
+### Asset Mapper ###
 /public/assets/
 /assets/vendor/
-###< symfony/asset-mapper ###
+
+### Node / Vite ###
+/node_modules/
+/public/build/
+
+### Docker ###
+.docker/
+.dockerignore
+
+### Editors ###
+.vscode/
+.idea/
+
