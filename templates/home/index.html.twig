@@ -1,19 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends 'base.html.twig' %} {% block title %}Hello HomeController!{% endblock
+%} {% block body %}
+<div class="bg-amber-300 text-indigo-500 p-6 text-right">TAILWIND WORKS ✅</div>
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
 
-{% block title %}Hello HomeController!{% endblock %}
-    
-
-{% block body %}
-   <div class="bg-blue-500 text-white p-6 text-right">
-    TAILWIND WORKS ✅
-    </div>
-    <div class="example-wrapper">
-        <h1>Hello {{ controller_name }}! ✅</h1>
-
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code>/var/www/html/src/Controller/HomeController.php</code></li>
-            <li>Your template at <code>/var/www/html/templates/home/index.html.twig</code></li>
-        </ul>
-    </div>
+    This friendly message is coming from:
+    <ul>
+        <li>
+            Your controller at
+            <code>/var/www/html/src/Controller/HomeController.php</code>
+        </li>
+        <li>
+            Your template at
+            <code>/var/www/html/templates/home/index.html.twig</code>
+        </li>
+    </ul>
+</div>
 {% endblock %}
+
