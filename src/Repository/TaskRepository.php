@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\Tasks;
+use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Tasks>
  */
-class TasksRepository extends ServiceEntityRepository
+class TaskRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tasks::class);
+        parent::__construct($registry, Task::class);
     }
 
 //    /**

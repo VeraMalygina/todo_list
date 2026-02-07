@@ -22,12 +22,13 @@ final class TasksController extends AbstractController
         $inProgressTasks = $tasksRepository->findBy(['status' => 'in_progress']);
 
         $doneTasks = $tasksRepository->findBy(['status' => 'done']);
-
+        
         return $this->render('tasks/index.html.twig', [
             'todoTasks' => $todoTasks,
             'inProgressTasks' => $inProgressTasks,
             'doneTasks' => $doneTasks
         ]);
+        
     }
 
     #[Route('/tasks/move', name: 'task_move', methods: ['POST'])]

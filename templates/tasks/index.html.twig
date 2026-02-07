@@ -1,30 +1,35 @@
-{% extends 'base.html.twig' %} {% block title %}Mes tâches{% endblock %} {%
+{% extends 'base.html.twig' %}  {%
 block body %}
 <section class="min-h-screen bg-slate-100 px-4 py-6">
     <header>
-        <h2 class="text-2xl font-semibold text-slate-100 mb-6">Mes tâches</h2>
+        <h2 class="text-2xl font-semibold text-slate-950 mb-6">Mes tâches</h2>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 ">
         <!-- COLONNE : À FAIRE -->
         <section
             data-status="todo"
             data-dropzone="true"
-            class="bg-white rounded-xl shadow-sm p-4 flex flex-col"
+            class="bg-white rounded-xl shadow-sm p-4 flex flex-col "
         >
             <header class="flex items-center justify-between mb-4">
                 <h3 class="texte-slate-700 font-medium">À faire</h3>
                 <div class="flex items-center justify-center gap-2">
                     <span
+                        data-counter
                         class="text-sm bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full"
                         >3</span
                     >
-                    
-                    <button type="button" class="relative group w-8 h-8 flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+
+                    <button
+                        data-sheet-open
+                        type="button"
+                        class="relative group w-8 h-8 flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                    >
                         <span class="text-xl">+</span>
 
                         <span
-                            class="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md  bg-blue-600 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100"
+                            class="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-blue-600 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100"
                         >
                             Ajouter une tache
                         </span>
@@ -32,10 +37,13 @@ block body %}
                 </div>
             </header>
 
-            <div class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto">
-               {% for oneTask in todoTasks %}
-                    {% include 'components/_card.html.twig' with { task: oneTask} %}
-               {% endfor %}
+            <div
+                data-task-wrapper
+                class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto overflow-x-visible"
+            >
+                {% for oneTask in todoTasks %} {% include
+                'components/_card.html.twig' with { task: oneTask} %} {% endfor
+                %}
             </div>
         </section>
 
@@ -49,17 +57,20 @@ block body %}
                 <h3 class="text-slate-700 font-medium">En cours</h3>
                 <div class="flex items-center justify-center gap-2">
                     <span
+                        data-counter
                         class="text-sm bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full"
                         >1</span
                     >
-                   
                 </div>
             </header>
 
-            <div class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto">
-                {% for oneTask in inProgressTasks %}
-                    {% include 'components/_card.html.twig' with { task: oneTask} %}
-                {% endfor %}
+            <div
+                data-task-wrapper
+                class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto overflow-x-visible"
+            >
+                {% for oneTask in inProgressTasks %} {% include
+                'components/_card.html.twig' with { task: oneTask} %} {% endfor
+                %}
             </div>
         </section>
 
@@ -67,25 +78,32 @@ block body %}
         <section
             data-status="done"
             data-dropzone="true"
-            class="bg-white rounded-xl shadow-sm p-4 flex flex-col opa"
+            class="bg-white rounded-xl shadow-sm p-4 flex flex-col"
         >
             <header class="flex items-center justify-between mb-4">
                 <h3 class="text-slate-700 font-medium">Terminé</h3>
                 <div class="flex items-center gap-2">
                     <span
+                        data-counter
                         class="text-sm bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full"
                         >2</span
                     >
-                    
                 </div>
             </header>
 
-            <div class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto">
-                {% for oneTask in doneTasks %}
-                    {% include 'components/_card.html.twig' with { task: oneTask} %}
-                {% endfor %}
+            <div
+                data-task-wrapper
+                class="flex flex-col gap-3 max-h-[70vh] overflow-y-auto overflow-x-visible"
+            >
+                {% for oneTask in doneTasks %} {% include
+                'components/_card.html.twig' with { task: oneTask} %} {% endfor
+                %}
             </div>
         </section>
     </div>
 </section>
+
+
+{% include 'components/_create_task_sheet.html.twig' %}
+
 {% endblock %}
