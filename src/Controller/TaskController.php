@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\TasksRepository;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,14 +14,14 @@ final class TasksController extends AbstractController
 {
     #[Route('/tasks', name: 'app_tasks')]
     public function index(
-        TasksRepository $tasksRepository
+        TaskRepository $taskRepository
         ): Response
     {
-        $todoTasks = $tasksRepository->findBy(['status' => 'todo']);
+        $todoTasks = $taskRepository->findBy(['status' => 'todo']);
 
-        $inProgressTasks = $tasksRepository->findBy(['status' => 'in_progress']);
+        $inProgressTasks = $taskRepository->findBy(['status' => 'in_progress']);
 
-        $doneTasks = $tasksRepository->findBy(['status' => 'done']);
+        $doneTasks = $taskRepository->findBy(['status' => 'done']);
         
         return $this->render('tasks/index.html.twig', [
             'todoTasks' => $todoTasks,
@@ -34,13 +34,13 @@ final class TasksController extends AbstractController
     #[Route('/tasks/move', name: 'task_move', methods: ['POST'])]
     public function move(
         Request $request,
-        TasksRepository $tasksRepository,
+        TaskRepository $taskRepository,
         EntityManagerInterface $em
     ): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
-        $task = $tasksRepository->find($data['taskId']);
+        $task = $taskRepository->find($data['taskId']);
         
         if(!$task) {
             return new JsonResponse(['error' => 'Task not found'] , 404);
