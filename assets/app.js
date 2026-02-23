@@ -21,47 +21,80 @@ document.addEventListener("DOMContentLoaded", () => {
         close.addEventListener("click", () => {
             sheetPanel.classList.add("translate-x-full");
             setTimeout(() => sheetOverlay.classList.add("hidden"), 700);
+            clearErrors();
+            form.reset();
         });
     });
 
+    function clearErrors() {
+        //On supprime les anciens message d'erreurs.
+        document
+            .querySelectorAll("[data-error-for]")
+            .forEach((el) => el.remove());
 
+        //On retire l'ancien surlignage des inputs
+        document
+            .querySelectorAll("[data-has-error='true']")
+            .forEach((input) => {
+                input.classList.remove("border-red-500", "focus:ring-red-500");
+                input.removeAttribute("data-has-error");
+                input.removeAttribute("aria-invalid");
+            });
+    }
 
+    function displayErrors(errors) {
+        clearErrors();
 
+        Object.entries(errors).forEach(([field, message]) => {
+            const input = document.querySelector(`[name="${field}"]`);
 
+            if (!input) return;
 
-    
+            //Le surlignage de l'input
+            input.classList.add("border-red-500", "focus:ring-red-500");
+            input.setAttribute("data-has-error", "true");
+            input.setAttribute("aria-invalid", "true");
+
+            //On fait <p> avec le message d'erreur.
+            const errorEl = document.createElement("p");
+            errorEl.textContent = message;
+            errorEl.className = "text-sm text-red-500";
+            errorEl.setAttribute("data-error-for", field);
+
+            input.insertAdjacentElement("afterend", errorEl);
+        });
+    }
 
     //Envoi de la tache via Fetch et insertion dans le DOM
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const columnTodo = document.querySelector(
-            '[data-status="todo"][data-task-wrapper]',
+            '[data-status="todo"] [data-task-wrapper]',
         );
         const formData = new FormData(form);
 
-        const response = await fetch("/tasks/reate", {
+        const response = await fetch("/tasks/create", {
             method: "POST",
             body: formData,
         });
 
-        const data = response.json();
+        const data = await response.json();
 
         if (!response.ok) {
-            return new Error("Error: Donnees invalides");
+            displayErrors(data.errors);
+            return console.log(data);
         }
+        console.log(data)
+        clearErrors();
+        setTimeout(() => {
+            columnTodo.insertAdjacentHTML("beforeend", data.html);
+            updateCounters();
+            form.reset();
+            sheetPanel.classList.add("translate-x-full");
+        }, 500);
 
-        columnTodo.insertAdjacentElement("beforeend", data);
-        form.reset();
-        sheetPanel.classList.add("translate-x-full");
         setTimeout(() => sheetOverlay.classList.add("hidden"), 700);
     });
-
-
-
-
-
-
-
 
     let draggedTask = null;
     let previousColumn = null;

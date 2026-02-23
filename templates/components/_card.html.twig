@@ -1,16 +1,20 @@
 <article
     draggable="true"
     data-task-id="{{ oneTask.id }}"
+    data-action="delete-task"
     class="bg-slate-50 border border-slate-200 rounded-lg p-3 hover:shadow cursor-grab active:cursor-grabbing active:scale-90 active:shadow-2xl transition-all"
 >
-    <h4>{{ oneTask.title }}</h4>
-    <p class="text-slate-500 text-xs mt-1">{{ oneTask.description }}</p>
+    <h4 class="break-words whitespace-normal">{{ oneTask.title }}</h4>
+    <p class="text-slate-500 text-xs mt-1 break-words whitespace-normal">
+        {{ oneTask.description }}
+    </p>
 
     <footer
-        class="flex justify-between items-center mt-3 text-xs text-slate-500"
+        class="flex justify-between items-center mt-3 gap-2 text-xs text-slate-500"
     >
-        <span>Assigné à : Marie</span>
-        <span>Data de creation : {{ oneTask.createdAt|date('d.m.Y')}}</span>
-        
+        <span>Assigné à : {{ oneTask.author.name }}</span>
+        <span>Date de creation : {{ oneTask.createdAt|date('d.m.Y')}}</span>
+        <span>Deadline : {{ oneTask.dueDate|date('d.m.Y') }}</span>
+
     </footer>
 </article>
