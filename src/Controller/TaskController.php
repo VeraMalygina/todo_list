@@ -5,15 +5,19 @@ namespace App\Controller;
 use App\Dto\CreateTaskDto;
 use App\Repository\TaskRepository;
 use App\Entity\Task;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 
 final class TaskController extends AbstractController
@@ -45,8 +49,9 @@ final class TaskController extends AbstractController
         
     ): JsonResponse
     {
+        
         $data = json_decode($request->getContent(), true);
-
+       
         $task = $taskRepository->find($data['taskId']);
         
         if(!$task) {
@@ -57,7 +62,65 @@ final class TaskController extends AbstractController
         $task->setStatus($data['status']);
         $em->flush();
         
-        return new JsonResponse(['success' => true]);
+        return new JsonResponse(['message' => true]);
+    }
+
+    #[Route('/task/{id}/edit', name: 'task_edit', methods: ['POST','PATCH'])]
+    public function taskEdit(
+        Task $task,
+        Request $request, 
+        ValidatorInterface $validator,
+        EntityManagerInterface $em
+        ): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('edit-task', $request->request->get('_token'))) {
+            throw new AccessDeniedHttpException();
+        };
+        
+       
+
+        $dueDate = $request->request->get('dueDate');
+
+        $dto = new CreateTaskDto(
+            $request->request->get('title'),
+            $request->request->get('description'),
+            !empty($dueDate) ? new DateTimeImmutable($dueDate) : null,
+
+        );
+
+        $errors = $validator->validate($dto);
+
+       
+
+        if(count($errors) > 0) {
+            $formattedErrors = [];
+            foreach($errors as $error) {
+                $field = $error->getPropertyPath();
+                $formattedErrors[$field] = $error->getMessage();
+                dump( $formattedErrors);
+            }
+            return new JsonResponse(['errors' => $formattedErrors], 422);
+        }
+         
+        
+        $task->setTitle($dto->getTitle());
+        $task->setDescription($dto->getDescription());
+        $task->setDueDate($dto->getDueDate());
+        
+
+        
+        $em->flush();
+        
+        $html = $this->renderView('components/_card.html.twig', [
+            'oneTask' => $task,
+        ]);
+        
+       return new JsonResponse([
+            'message' => 'Votre tâche a été mise à jour avec succès.',
+            'type' => 'success',
+            'html' => $html,
+        ], 200);
+        
     }
 
 
@@ -72,10 +135,9 @@ final class TaskController extends AbstractController
     {
         // CSRF
         if(!$this->isCsrfTokenValid('create_task', $request->request->get("_token"))) {
-            return new JsonResponse(['error' => 'Invalid CSRF token'], 403);
+             throw new AccessDeniedHttpException();
         };
-        
-        
+
         $dueDate = $request->request->get('dueDate'); 
 
         // Data Transfer Object pour Validator
@@ -111,12 +173,29 @@ final class TaskController extends AbstractController
         //Doctrine
         $em->persist($task);
         $em->flush();
+        
 
         $html = $this->renderView('components/_card.html.twig', [
             'oneTask' =>  $task
         ]);
 
         return new JsonResponse(['html' =>  $html]);
+        
+    }
+
+    #[Route('/tasks/{id}/delete', name: 'task_delete', methods: ['DELETE'])]
+    public function deleteTask(
+        Task $task,
+        EntityManagerInterface $em
+        ): JsonResponse
+    {
+        $em->remove($task);
+       
+        $em->flush();
+
+       return new JsonResponse(['message' => 'Votre tâche a été supprimée avec succès',
+                                'type' => 'success'
+        ], 200);
         
     }
 }

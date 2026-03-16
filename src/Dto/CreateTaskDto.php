@@ -33,8 +33,8 @@ class CreateTaskDto
         ?\DateTimeImmutable $dueDate,
     )
     {
-        $this->title = $title;
-        $this->description = $description;
+        $this->title = trim($title);
+        $this->description = trim($description);
         $this->dueDate = $dueDate;
 
     }

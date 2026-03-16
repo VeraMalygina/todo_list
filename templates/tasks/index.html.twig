@@ -13,23 +13,33 @@ block body %}
             class="bg-white rounded-xl shadow-sm p-4 flex flex-col "
         >
             <header class="flex items-center justify-between mb-4">
-                <h3 class="texte-slate-700 font-medium">À faire</h3>
+                <h3 class=" text-slate-700  font-medium">À faire</h3>
                 <div class="flex items-center justify-center gap-2">
                     <span
                         data-counter
-                        class="text-sm bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full"
+                        class="text-sm bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full "
                         >3</span
                     >
 
                     <button
                         data-sheet-open
                         type="button"
-                        class="relative group w-8 h-8 flex items-center justify-center rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                        class="relative group w-8 h-8 flex items-center justify-center rounded-full text-black transition-all divide-purple-300 ease-out hover:text-lime-400"
                     >
-                        <span class="text-xl">+</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 24 24" 
+                            stroke-width="1.5" 
+                            stroke="currentColor" 
+                            class="size-8">
+                            <path stroke-linecap="round" 
+                                  stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                        </svg>
+
 
                         <span
-                            class="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md bg-blue-600 px-2 py-1 text-xs text-white opacity-0 transition group-hover:opacity-100"
+                            class="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 translate-y-2 opacity-0 whitespace-nowrap rounded-md bg-blue-600 px-2 py-1 text-xs text-white transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-y-0 "
                         >
                             Ajouter une tache
                         </span>
@@ -105,5 +115,13 @@ block body %}
 
 
 {% include 'components/_create_task_sheet.html.twig' %}
+
+{% include 'components/_modal_delete.html.twig' %}
+
+{% include 'components/_confirmation_and_notification.html.twig' %}
+
+{% include 'components/_modal_edit.html.twig' %}
+
+
 
 {% endblock %}
