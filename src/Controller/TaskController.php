@@ -5,16 +5,16 @@ namespace App\Controller;
 use App\Dto\CreateTaskDto;
 use App\Repository\TaskRepository;
 use App\Entity\Task;
-use App\Entity\User;
-use App\Repository\UserRepository;
+
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -36,7 +36,7 @@ final class TaskController extends AbstractController
         return $this->render('tasks/index.html.twig', [
             'todoTasks' => $todoTasks,
             'inProgressTasks' => $inProgressTasks,
-            'doneTasks' => $doneTasks
+            'doneTasks' => $doneTasks,
         ]);
         
     }
@@ -55,8 +55,13 @@ final class TaskController extends AbstractController
         $task = $taskRepository->find($data['taskId']);
         
         if(!$task) {
-            return new JsonResponse(['error' => 'Task not found'] , 404);
+            throw new NotFoundHttpException();
         };
+
+
+        if($task->getAuthor() !== $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
         
         
         $task->setStatus($data['status']);
@@ -73,6 +78,10 @@ final class TaskController extends AbstractController
         EntityManagerInterface $em
         ): JsonResponse
     {
+        if($task->getAuthor() !== $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
+
         if (!$this->isCsrfTokenValid('edit-task', $request->request->get('_token'))) {
             throw new AccessDeniedHttpException();
         };
@@ -129,7 +138,7 @@ final class TaskController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         EntityManagerInterface $em,
-        UserRepository $user
+        
 
     ): JsonResponse
     {
@@ -166,7 +175,10 @@ final class TaskController extends AbstractController
         $task->setDueDate($dto->getDueDate());
         $task->setStatus('todo');
 
-        $user = $user->find(1);
+        $user = $this->getUser();
+        if(!$user) {
+            throw $this->createAccessDeniedException();
+        }
 
         $task->setAuthor($user);
 
@@ -189,6 +201,11 @@ final class TaskController extends AbstractController
         EntityManagerInterface $em
         ): JsonResponse
     {
+
+        if($task->getAuthor() !== $this->getUser()) {
+            throw new AccessDeniedHttpException();
+        }
+
         $em->remove($task);
        
         $em->flush();

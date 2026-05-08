@@ -1,9 +1,16 @@
-
-
 services:
     php:
         build: ./docker/php
         container_name: todo_php
+        volumes:
+            - ./:/var/www/html
+        depends_on:
+            - db
+
+    worker:
+        build: ./docker/php
+        command: php bin/console messenger:consume async
+        restart: always
         volumes:
             - ./:/var/www/html
         depends_on:
@@ -27,7 +34,7 @@ services:
             POSTGRES_USER: todo_user
             POSTGRES_PASSWORD: todo_pass
             POSTGRES_DB: todo_db
-        
+
         volumes:
             - pgdata:/var/lib/postgresql/data
         ports:

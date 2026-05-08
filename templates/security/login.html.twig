@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <form action="{{ path('app_login') }}"  method="post" class="max-w-md mx-auto mt-10 space-y-4">
+        {% if error %}
+            <div class="bg-red-100 text-red-700 p-3 rounded">
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+        {% endif %}
+        {{ dump(app.user) }}
+            {{dump(app)}}
+            {{dump(app.flashes)}}
+        {% if app.user %}
+            <div class="mb-3 text-sm text-black">
+                You are logged in as {{ app.user.userIdentifier }}, 
+                <a href="{{ logout_path() }}" class="text-gray-200 underline">Logout</a>
+            </div>
+        {% endif %}
+
+        
+        
+            
+        <h1 class="text-2xl font-semibold mb-3">Please sign in</h1>
+        <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
+
+        <label for="username" class="block text-sm font-medium">Email</label>
+        <input 
+            type="email" 
+            value="{{ last_username }}" 
+            name="_username" 
+            id="username" 
+            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+            autocomplete="email" 
+            required 
+            autofocus
+        >
+
+        <label for="password" class="block text-sm font-medium">Password</label>
+        <input 
+            type="password" 
+            name="_password" 
+            id="password" 
+            class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" 
+            autocomplete="current-password" 
+            required
+        >
+
+        <input 
+            type="hidden" 
+            name="_csrf_token" 
+            data-controller="csrf-protection" 
+            value="{{ csrf_token('authenticate') }}"
+        >
+
+        {#
+        <div class="flex items-center gap-2">
+            <input type="checkbox" name="_remember_me" id="_remember_me">
+            <label for="_remember_me" class="text-sm">Remember me</label>
+        </div>
+        #}
+
+        <button 
+            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition" 
+            type="submit"
+        >
+            Sign in
+        </button>
+    </form>
+{% endblock %}
+
+
+
+

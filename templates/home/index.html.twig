@@ -4,6 +4,8 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
+
+    
     This friendly message is coming from:
     <ul>
         <li>
@@ -11,6 +13,10 @@
             <code>/var/www/html/src/Controller/HomeController.php</code>
         </li>
         <li>
+            {{dump(app)}}
+            {{dump(app.flashes)}}
+            {{ dump(app.user) }}
+            {{ dump(app.user.roles) }}
             Your template at
             <code>/var/www/html/templates/home/index.html.twig</code>
         </li>
