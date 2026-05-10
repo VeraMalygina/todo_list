@@ -4,6 +4,7 @@ namespace App\EventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\Security\Core\Exception\ExceptionInterface;
 
 class ExceptionListener
 {
@@ -14,6 +15,10 @@ class ExceptionListener
         
        $exception = $event->getThrowable();
     
+       if($exception instanceof ExceptionInterface) {
+        return;
+       }
+       
 
        //Nous determinons le statut
         if($exception instanceof HttpExceptionInterface) {

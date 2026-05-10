@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -56,6 +57,12 @@ final class TaskController extends AbstractController
         
         if(!$task) {
             throw new NotFoundHttpException();
+            
+        };
+
+        if(!$task) {
+            throw new UserNotFoundException();
+            
         };
 
 
