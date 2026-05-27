@@ -17,7 +17,7 @@
             {{dump(app)}}
             {{dump(app.flashes)}}
         {% if app.user %}
-            <div class="mb-3 text-sm text-black">
+            <div class="mb-3 text-sm text-zinc-200">
                 You are logged in as {{ app.user.userIdentifier }}, 
                 <a href="{{ logout_path() }}" class="text-gray-200 underline">Logout</a>
             </div>

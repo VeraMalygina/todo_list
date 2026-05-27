@@ -30,7 +30,19 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
+        
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $fileAvatar = $form->get('avatar')->getData();
+            $directory = $this->getParameter('avatars_directory');
+
+            if ( $fileAvatar ) {
+                $newFileNameAvatar = bin2hex(random_bytes(16)). '.' .$fileAvatar->guessExtension();
+                $fileAvatar->move($directory, $newFileNameAvatar);
+                $user->setAvatar($newFileNameAvatar);
+            }
+            
             /** @var string $plainPassword */
             $plainPassword = $form->get('plainPassword')->getData();
 
@@ -45,7 +57,7 @@ class RegistrationController extends AbstractController
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
-                    ->from(new Address('veramalygina0@gmail.com', 'ToDoList'))
+                    ->from(new Address('veramalygina0@gmail.com', 'To-Do-List'))
                     ->to((string) $user->getEmail())
                     ->subject('Please Confirm your Email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')

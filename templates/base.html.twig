@@ -19,12 +19,15 @@
         }}
         {% endblock %}
     </head>
-    <body class="bg-blue-700">
+    <body >
         <header>
             <nav>
                
-
+                <a href="{{ path('about') }}" class="mr-4">À propos</a>
+                <a href="{{ path('privacy') }}">Politique de confidentialité</a>
             </nav>
+
+            
         </header>
 
         <main>{% block body %}{% endblock %}</main>

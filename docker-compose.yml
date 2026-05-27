@@ -9,7 +9,18 @@ services:
 
     worker:
         build: ./docker/php
+        container_name: worker
         command: php bin/console messenger:consume async
+        restart: always
+        volumes:
+            - ./:/var/www/html
+        depends_on:
+            - db
+
+    cron:
+        build: ./docker/php
+        container_name: cron
+        command: cron -f
         restart: always
         volumes:
             - ./:/var/www/html

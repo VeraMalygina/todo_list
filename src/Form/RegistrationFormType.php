@@ -13,6 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 class RegistrationFormType extends AbstractType
 {
@@ -21,6 +24,7 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('email', EmailType::class)
+            
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -46,6 +50,31 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
+            ->add('avatar', FileType::class, [
+                'mapped' => false,
+                'required' => false,
+                'attr' => [
+                    'accept' => 'image/png, image/jpg, image/jpeg, image/webp',                
+                ],
+                "constraints" => [
+                    new File([
+                        'extensions' => [
+                            'png',
+                            'jpg',
+                            'jpeg',
+                            'webp',
+                        ],
+                        'extensionsMessage' => 'The extension of the file is invalid ({{ extension }}). Allowed extensions are {{ extensions }}.',
+                        'maxSize' => '2M',
+                        'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.',
+                        'uploadErrorMessage' => 'Erreur lors du téléchargement du fichier.',
+                        
+                    ])
+                    
+                ],
+                
+            ])
+            
         ;
     }
 

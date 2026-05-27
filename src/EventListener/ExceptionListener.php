@@ -10,11 +10,11 @@ class ExceptionListener
 {
     public function __invoke(ExceptionEvent $event): void
     {
-
-
         
        $exception = $event->getThrowable();
-    
+
+        // Séparation du traitement des erreurs entre Symfony Security et le listener API JSON
+        // Base ExceptionInterface class for the Security component.
        if($exception instanceof ExceptionInterface) {
         return;
        }

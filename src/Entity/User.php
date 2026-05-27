@@ -60,10 +60,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     
 
     /**
-     * @var Collection<int, Tasks>
+     * @var Collection<int, Task>
      */
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'author')]
     private Collection $tasks;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
 
     
 
@@ -168,7 +171,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
    
 
     /**
-     * @return Collection<int, Tasks>
+     * @return Collection<int, Task>
      */
     public function getTasks(): Collection
     {
@@ -208,6 +211,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isEnabled (): bool
     {
         return $this->isActive;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
     
