@@ -20,16 +20,13 @@
         {% endblock %}
     </head>
     <body >
-        <header>
-            <nav>
-               
-                <a href="{{ path('about') }}" class="mr-4">À propos</a>
-                <a href="{{ path('privacy') }}">Politique de confidentialité</a>
-            </nav>
 
-            
-        </header>
+        {% if app.user %}
+            {% include 'components/_navbar.html.twig' %}
+        {%endif%}
+        
+        
 
-        <main>{% block body %}{% endblock %}</main>
+        {% block body %}{% endblock %}
     </body>
 </html>

@@ -1,20 +1,20 @@
 <div
     id="modal-delete"
-    class="fixed inset-0 z-100 bg-yellow-700-700/40 duration-300 backdrop-blur-sm hidden"
+    class="fixed inset-0 z-[1001] bg-[rgb(30,38,49)]/55 duration-300 backdrop-blur-sm hidden"
 >
     <div
-        class="bg-slate-300 ring-black/50 fixed top-1/2 left-1/2 z-100 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 text-sm ring-1 duration-300 outline-none sm:max-w-sm"
+        class=" bg-[rgb(30,38,49)]/55 ring-white/50 fixed top-1/2 left-1/2 z-100 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl p-4 text-sm md:text-base ring-1 duration-300 outline-none sm:max-w-sm"
         style="pointer-events: auto"
     >
         <div class="flex flex-col gap-2">
-            <h2 class="text-base leading-none font-medium">Vous êtes sûrs ?</h2>
+            <h2 class=" leading-none font-medium">Vous êtes sûrs ?</h2>
         </div>
 
         <div
             class="bg-black/15 -mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t p-4 sm:flex-row sm:justify-end"
         >
             <button
-                class="bg-slate-600 h-8 gap-1.5 px-2.5 rounded-lg text-sm font-medium transition duration-300 ease-out hover:bg-gray-700 hover:-translate-y-0.5  hover:shadow-xl "
+                class="bg-slate-600 h-8 gap-1.5 px-2.5 rounded-lg text-sm font-medium transition duration-300 ease-out hover:-translate-y-0.5  hover:shadow-white hover:shadow-sm "
                 type="submit"
                 data-confirm-modal
             >
@@ -22,7 +22,7 @@
                 <span data-spinner-modal-delete class="loading loading-ring loading-lg hidden"></span>
             </button>
             <button
-                class="h-8 gap-1.5 px-2.5 border-2 rounded-lg transition duration-300 ease-out hover:bg-slate-400 hover:-translate-y-0.5  hover:shadow-xl "
+                class="h-8 gap-1.5 px-2.5 border-2 rounded-lg transition duration-300 ease-out  hover:-translate-y-0.5  hover:shadow-white hover:shadow-sm "
                 type="button"
                 data-close-modal-delete
             >
@@ -31,7 +31,7 @@
         </div>
         <button
             data-close-modal-delete
-            class="absolute top-2 right-2 text-black transition-all duration-500 ease-out hover:ring-1 hover:ring-black"
+            class="absolute top-2 right-2  transition-all duration-500 ease-out hover:ring-1 hover:ring-white/50 hover:rounded-md"
             type="button"
         >
             <svg

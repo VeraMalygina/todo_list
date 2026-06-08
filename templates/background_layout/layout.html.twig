@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+
+
+    {% block body %}
+
+   
+
+    <main
+        class="relative min-h-dvh  sm:bg-[position:40%_center] md:bg-center flex items-center justify-center px-4 sm:px-6  lg:px-10 py-8"
+    >
+        <div class="absolute inset-0 bg-black/30"></div>
+
+        <div class=" z-[50] w-full max-w-screen-2xl mx-auto ">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    
+
+    {% include 'components/_create_task_sheet.html.twig' %}
+    
+    {% include 'components/_modal_delete.html.twig' %}
+
+    {% include 'components/_confirmation_and_notification.html.twig' %}
+
+    {% include 'components/_modal_edit.html.twig' %}
+
+{% endblock %}   
+    
+    
+    
+   

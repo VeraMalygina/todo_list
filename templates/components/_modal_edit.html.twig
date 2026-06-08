@@ -1,16 +1,14 @@
 <div
     data-edit-overlay
-    class="fixed inset-0 z-40 bg-slate-100/20 duration-300 backdrop-blur-sm hidden"
+    class="fixed inset-0 z-[1001] bg-[rgb(30,38,49)]/55 duration-300 backdrop-blur-sm hidden"
 >
     <div
-        class="fixed z-50 top-1/2 left-1/2 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-slate-950/20 p-4 text-sm text-black ring-1 ring-foreground/10 outline-none sm:max-w-sm duration-300 backdrop-blur-md"
+        class="m-4 mx-auto fixed z-[1500] top-1/2 left-1/2 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl ring-white/50 ring-1 p-4 text-sm outline-none sm:max-w-sm duration-300 backdrop-blur-md max-h-[100dvh] overflow-y-auto"
         tabindex="-1"
         style="pointer-events: auto"
     >
         <div class="flex flex-col gap-2 mt-9 mb-3">
-            <h2 class="text-base leading-none font-medium">
-                Modifier la tâche
-            </h2>
+            <h2 class="leading-none font-medium">Modifier la tâche</h2>
             <p
                 class="text-sm text-muted-foreground *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground"
             >
@@ -25,15 +23,19 @@
                 <div
                     class="group/field flex w-full gap-2 flex-col *:w-full [&amp;&gt;.sr-only]:w-auto"
                 >
-                    <input type="hidden" name="_token" value="{{csrf_token('edit-task')}}">
-                    
-                    <input type="hidden" name="taskId">
+                    <input
+                        type="hidden"
+                        name="_token"
+                        value="{{ csrf_token('edit-task') }}"
+                    />
+
+                    <input type="hidden" name="taskId" />
                     <label
                         class="flex items-center gap-2 text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
                         for="name"
                         >Title</label
                     ><input
-                        class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 file:text-foreground placeholder:text-muted-foreground h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px] md:text-sm"
+                        class="dark:bg-input/30 border-input aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 file:text-foreground placeholder:text-muted-foreground h-8 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px] md:text-sm focus:shadow-white focus:shadow-sm"
                         id="name"
                         placeholder="Title"
                         name="title"
@@ -47,7 +49,7 @@
                         for="description"
                         >Description</label
                     ><textarea
-                        class="dark:bg-input/30 border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 file:text-foreground placeholder:text-muted-foreground min-h-28 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px] md:text-sm"
+                        class="dark:bg-input/30 border-input aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 disabled:bg-input/50 dark:disabled:bg-input/80 file:text-foreground placeholder:text-muted-foreground min-h-28 w-full min-w-0 rounded-lg border bg-transparent px-2.5 py-1 transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus:shadow-white focus:shadow-sm"
                         id="description"
                         placeholder="Entrez une description"
                         name="description"
@@ -55,7 +57,7 @@
                 </div>
 
                 <div
-                    class="group/field flex w-full gap-3 flex-col *:w-full [&amp;&gt;.sr-only]:w-auto text-black mb-3"
+                    class="group/field flex w-full gap-3 flex-col *:w-full [&amp;&gt;.sr-only]:w-auto mb-3"
                 >
                     <label
                         class="flex items-center gap-2 text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
@@ -67,33 +69,36 @@
                         name="dueDate"
                         value="{{ 'now' |date('Y-m-d')}}"
                         id="date"
-                        class="border rounded p-2 bg-slate-200"
+                        class="border rounded p-2 bg-transparent focus:shadow-white focus:shadow-sm"
                     />
                 </div>
             </div>
             <div
-                class="-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-slate-500 p-4 sm:flex-row sm:justify-end"
+                class="-mx-4 -mb-4 flex flex-col-reverse justify-center items-center gap-2 rounded-b-xl border-t bg-[rgb(24,32,44)] p-4   "
             >
                 <button
                     data-close-edit
-                    class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding text-sm font-medium whitespace-nowrap outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 ark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-1.5 px-2.5 transition-all duration-200 ease-out hover:bg-slate-700/25 hover:-translate-y-0.5 hover:shadow-xl"
+                    class="group/button shrink-0 rounded-lg border text-sm font-medium whitespace-nowrap outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 ark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground dark:border-input h-8 gap-1.5 px-2.5 transition-all duration-200 ease-out bg-transparent hover:bg-[rgb(11,30,52)] hover:-translate-y-0.5 hover:shadow-white hover:shadow-sm flex items-center justify-center w-full "
                     type="button"
                 >
                     Annuler</button
                 ><button
                     data-confirm-edit
-                    class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-sky-50 text-sm text-slate-900 font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground [a]:hover:bg-primary/80 h-8 gap-1.5 px-2.5 duration-200 ease-out hover:-translate-y-0.5 hover:shadow-xl"
+                    class="group/button inline-flex shrink-0 items-center justify-center rounded-lg text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 [a]:hover:bg-primary/80 h-8 gap-1.5 px-2.5 duration-200 ease-out hover:-translate-y-0.5 bg-transparent hover:shadow-white hover:shadow-sm hover:bg-[rgb(11,30,52)] border w-full"
                     type="submit"
                 >
                     Enregistrer
-                    <span data-spinner-edit class="loading loading-ring loading-lg hidden"></span>
+                    <span
+                        data-spinner-edit
+                        class="loading loading-ring loading-lg hidden"
+                    ></span>
                 </button>
             </div>
         </form>
 
         <button
             data-close-edit
-            class="group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50 size-7 rounded-[min(var(--radius-md),12px)] absolute top-2 right-2 duration-500 ease-out hover:ring-1 hover:ring-black"
+            class="group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50 size-7 rounded-[min(var(--radius-md),12px)] absolute top-2 right-2 duration-500 ease-out hover:ring-1 hover:ring-white/50 hover:rounded-md"
             type="button"
         >
             <svg

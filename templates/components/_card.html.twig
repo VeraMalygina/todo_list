@@ -5,17 +5,17 @@
     data-title="{{ oneTask.title }}"
     data-description="{{ oneTask.description }}"
     data-due-date="{{ oneTask.dueDate|date('Y-m-d') }}"
-    class="bg-slate-50 border border-slate-200 relative rounded-lg p-3 hover:shadow cursor-grab active:cursor-grabbing active:scale-90 active:shadow-2xl transition-all"
+    class="bg-[rgb(30,38,49)]/90 border  relative rounded-lg p-3 hover:shadow cursor-grab active:cursor-grabbing active:scale-90 active:shadow-2xl transition-all"
 >
-    <h4 class="break-words whitespace-normal pr-16 text-md text-black">{{ oneTask.title }}</h4>
-    <p class="text-slate-500 text-xs mt-1 break-words whitespace-normal">
+    <h4 class="break-words whitespace-normal pr-16 text-md ">{{ oneTask.title }}</h4>
+    <p class=" text-xs mt-1 break-words whitespace-normal">
         {{ oneTask.description }}
     </p>
 
    
     {% if oneTask.author.id == app.user.id %}
         <button
-            class="h-6 w-6 absolute top-2 right-12 text-stone-950 transition-all duration-300 ease-out hover:text-zinc-400"
+            class="h-6 w-6 absolute top-4 right-12 transition-all duration-300 ease-out hover:text-zinc-400"
             data-edit
             type="button"
         >
@@ -36,7 +36,7 @@
         </button>
 
         <button
-            class="h-6 w-6 absolute top-2 right-4 text-stone-950 transition-all duration-300 ease-out hover:text-red-700"
+            class="h-6 w-6 absolute top-4 right-4   transition-all duration-300 ease-out hover:text-red-700"
             
             data-action="delete-task"
             type="button"
@@ -59,26 +59,31 @@
     {% endif %}
 
     <footer
-        class="flex justify-between items-center mt-3 gap-2 text-xs text-slate-500"
+        class="flex flex-wrap w-full justify-between items-center mt-3 gap-2 text-xs  "
     >
-        <span>Assigné à : {{ oneTask.author.name }}</span>
-        <span>Date de creation : {{ oneTask.createdAt|date('d.m.Y')}}</span>
-        <span>Deadline : {{ oneTask.dueDate|date('d.m.Y') }}</span>
+        <div class="flex w-full items-center justify-between gap-2">
+            <span class=" w-auto">Date de creation : {{ oneTask.createdAt|date('d.m.Y')}}</span>
+            <span class="w-auto text-right">Deadline : {{ oneTask.dueDate|date('d.m.Y') }}</span>
+
+        </div>
+        
 
 
-        {% if oneTask.author.avatar %} 
-            <img
-                src="{{ asset('uploads/avatars/' ~ (oneTask.author.avatar ?? 'default-avatar.png')) }}"
-                alt="Avatar de {{ oneTask.author.username }}"
-                
+        <div class="flex w-full justify-between items-center gap-2">
 
-            >
-        {%else%} 
+            <span >Assigné à : {{ oneTask.author.name }}</span>
 
-            <svg class="w-8 h-8 text-slate-600" aria-hidden="true" xmlns="http://www.w3. org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z" clip-rule="evenodd"/>
-            </svg>
-        {%endif%}
+            <div class="w-8 rounded-full object-cover " >
+                <img
+                    alt="Avatar"
+                    src="{{ app.user and app.user.avatar 
+                            ? asset('uploads/avatars/') ~ app.user.avatar 
+                            : asset('images/default-avatar.png')}}"
+                />
+            </div>
+       
+        </div>
+        
 
     </footer>
 </article>

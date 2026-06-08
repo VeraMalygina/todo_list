@@ -36,17 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
     let textConfirmationAndNotification =
         document.getElementById("modal-message");
 
-    //Sheet-panel
+    //Ouverture du panneau  Sheet-panel
     sheetOpen.addEventListener("click", () => {
         sheetOverlay.classList.remove("hidden");
+        document.body.classList.add("overflow-hidden");
+        document.documentElement.classList.add("overflow-hidden");
 
         setTimeout(() => sheetPanel.classList.remove("translate-x-full"), 100);
     });
 
+    // Fermeture du panneau Sheet-panel
     sheetCloses.forEach((close) => {
         close.addEventListener("click", () => {
             sheetPanel.classList.add("translate-x-full");
             setTimeout(() => sheetOverlay.classList.add("hidden"), 700);
+            document.body.classList.remove("overflow-hidden");
+            document.documentElement.classList.remove("overflow-hidden");
             clearErrors(formCreateTask);
             form.reset();
         });
@@ -115,6 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        document.body.classList.remove("overflow-hidden");
+        document.documentElement.classList.remove("overflow-hidden");
         clearErrors(formCreateTask);
         setTimeout(() => {
             columnTodo.insertAdjacentHTML("beforeend", data.html);
