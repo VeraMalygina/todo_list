@@ -22,10 +22,10 @@
     <body >
 
         {% if app.user %}
-            {% include 'components/_navbar.html.twig' %}
+            {% include 'components/_navbar_user.html.twig' %}
+        {%else%}
+            {% include 'components/_navbar_guest.html.twig' %}
         {%endif%}
-        
-        
 
         {% block body %}{% endblock %}
     </body>

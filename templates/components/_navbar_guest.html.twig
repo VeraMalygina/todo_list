@@ -1,0 +1,79 @@
+<header>
+    <nav>
+        <div
+            class="navbar bg-[rgb(18,27,39)]/90 shadow-sm fixed top-0 left-0 right-0 z-[1000] backdrop-blur-sm 2xl:backdrop-blur-none"
+        >
+            <div
+                class="navbar-start flex w-full justify-between items-center lg:justify-start"
+            >
+                <div class="dropdown">
+                    <details>
+                        <summary class="btn btn-ghost lg:hidden list-none flex justify-center items-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-7 w-7"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h8m-8 6h16"
+                                />
+                            </svg>
+                        </summary>
+
+                        <ul
+                            class="menu menu-md dropdown-content rounded-box mt-3 w-52 p-2 shadow bg-[rgb(18,27,39)]"
+                        >
+                            <li><a>Item 1</a></li>
+                            <li>
+                                <a>Parent</a>
+                                <ul class="p-2">
+                                    <li><a>Submenu 1</a></li>
+                                    <li><a>Submenu 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a>Item 3</a></li>
+                        </ul>
+                    </details>
+                </div>
+                <a
+                    href="{{ path('about') }}"
+                    class="btn btn-ghost text-lg md:text-xl hover:bg-transparent"
+                    >Liste de tâches</a
+                >
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul
+                    class="menu menu-horizontal px-1 text-lg leading-8 flex gap-3"
+                >
+                    <li>
+                        <a
+                            href="{{ path('privacy') }}"
+                            class="hover:border-white hover:border-b-[1px] hover:bg-transparent transition-all duration-300 ease-in-out"
+                            >Politique de confidentialité</a
+                        >
+                    </li>
+
+                    <li>
+                        <a
+                            href="{{ path('about') }}"
+                            class="hover:border-white hover:border-b-[1px] hover:bg-transparent transition-all duration-300 ease-in-out"
+                            >À propos</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-end hidden lg:flex mr-3">
+                <a
+                    href="{{ path('app_login') }}"
+                    class="btn bg-[rgb(18,27,39)] font-medium text-base ring-1 ring-white hover:bg-transparent"
+                    >Connexion</a
+                >
+            </div>
+        </div>
+    </nav>
+</header>

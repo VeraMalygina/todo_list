@@ -3,13 +3,12 @@
 @tailwind utilities;
 
 body {
-    background: url("/images/kanban-bg.png");
-    background-size: cover;
-    background-position: 10% center;
     min-height: 100dvh;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: rgb(203, 213, 225);
+    color: white;
+}
+
+summary::-webkit-details-marker {
+    display: none;
 }
 
 @layer utilities {

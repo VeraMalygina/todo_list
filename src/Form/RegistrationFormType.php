@@ -66,7 +66,7 @@ class RegistrationFormType extends AbstractType
                         ],
                         'extensionsMessage' => 'The extension of the file is invalid ({{ extension }}). Allowed extensions are {{ extensions }}.',
                         'maxSize' => '2M',
-                        'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.',
+                        'maxSizeMessage' => 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). La taille maximale est de {{ limit }} {{ suffix }}.',
                         'uploadErrorMessage' => 'Erreur lors du téléchargement du fichier.',
                         
                     ])

@@ -1,6 +1,4 @@
 import "./app.css";
-import './pages/tasks';
-document.addEventListener("DOMContentLoaded", () => {
-    
-    
-});
+import "./pages/tasks.js";
+import "./pages/registration.js";
+document.addEventListener("DOMContentLoaded", () => {});

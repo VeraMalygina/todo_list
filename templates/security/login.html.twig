@@ -4,22 +4,12 @@
 
 {% block content %}
 
-   
+   <section class="flex flex-col gap-6 w-full max-w-[420px]">
 
-        <form action="{{ path('app_login') }}"  method="post" class="max-w-md mx-auto mt-10 space-y-4 opacity-100  text-[rgb(18,27,39)]">
+        <form action="{{ path('app_login') }}"  method="post" class="w-full mx-auto space-y-4 opacity-100  ">
             
-            
-            {% if app.user %}
-                <div class="mb-3 text-sm ">
-                    You are logged in as {{ app.user.userIdentifier }}, 
-                    <a href="{{ logout_path() }}" class=" underline">Logout</a>
-                </div>
-            {% endif %}
-
-            
-            
-                
-            <h1 class="text-2xl font-semibold mb-3 text-center">Veuillez vous connecter</h1>
+                 
+            <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl text-center">Veuillez vous connecter</h1>
             <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
             <label for="username" class="block text-sm font-medium">Email</label>
@@ -28,7 +18,7 @@
                 value="{{ last_username }}" 
                 name="_username" 
                 id="username" 
-                class=" bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:ring-2 focus:ring-sky-950 active:bg-none" 
+                class=" bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:ring-2 focus:outline-none focus:ring-sky-950 active:bg-none" 
                 autocomplete="email" 
                 required 
                 autofocus
@@ -39,7 +29,7 @@
                 type="password" 
                 name="_password" 
                 id="password" 
-                class="  bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:outline-none focus:ring-2  focus:ring-sky-950" 
+                class="bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:outline-none focus:ring-2  focus:ring-sky-950" 
                 autocomplete="current-password" 
                 required
             >
@@ -66,7 +56,7 @@
             {% endif %}
 
             <button 
-                class="w-full bg-[rgb(18,27,39)] text-white py-2 rounded-lg mt-5 hover:bg-[rgb(11,30,52)] hover:translate-y-0.5 transition-all duration-600 " 
+                class="w-full bg-[rgb(18,27,39)] py-2 rounded-lg mt-5 hover:bg-[rgb(11,30,52)] hover:translate-y-0.5 transition-all duration-600 " 
                 type="submit"
             >
                 Se connecter
@@ -74,6 +64,15 @@
 
             
         </form>
+
+        <div class="flex flex-col sm:flex-row  sm:gap-1 justify-center items-center">
+            <p >Vous n'avez pas encore de compte ?</p>
+            <a href="{{ path('app_register') }}" class="underline underline-offset-2 hover:text-[rgb(18,27,39)]">S’inscrire</a>
+        </div>
+
+   </section>
+        
+        
    
     
 {% endblock %}

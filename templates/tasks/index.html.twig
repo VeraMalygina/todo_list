@@ -1,6 +1,6 @@
 {% extends 'background_layout/layout.html.twig' %} 
 {% block content %}
-<section data-page="tasks" class="min-h-[calc(100dvh-4rem)] bg-[rgb(30,38,49)]/50 w-full px-3 py-6 mt-16 rounded-lg backdrop-blur-sm 2xl:backdrop-blur-none">
+<section data-page="tasks" class="min-h-[calc(100dvh-4rem)] bg-[rgb(30,38,49)]/50 backdrop-blur-sm w-full px-3 py-6 mt-16 rounded-lg 2xl:backdrop-blur-none">
    
         
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 ">
@@ -114,7 +114,10 @@
 
 
 
+    {% include 'components/_create_task_sheet.html.twig' %}
     
+    {% include 'components/_modal_delete.html.twig' %}
+    {% include 'components/_modal_edit.html.twig' %}
 
 
 

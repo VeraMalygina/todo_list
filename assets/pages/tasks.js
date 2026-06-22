@@ -1,3 +1,6 @@
+import { showConfirmationNotification } from "../shared/confirmation_notification.js";
+import { clearErrors, displayErrors } from "../shared/clear_et_display_errors.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const pageTasks = document.querySelector('[data-page="tasks"]');
 
@@ -21,27 +24,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const spinnerModalDelete = document.querySelector(
         "[data-spinner-modal-delete]",
     );
-    const modalIcon = document.getElementById("icon");
-    const svg = document.querySelectorAll("#icon svg");
+    
+    
 
     let currentCard = null;
     let currentTaskId = null;
-    const modalConfirmationNotification = document.querySelector(
-        "[data-modal-confirmation-notification]",
-    );
+    
     const editModal = document.querySelector("[data-edit-overlay]");
     const closeEdit = document.querySelectorAll("[data-close-edit]");
     const formCreateTask = document.getElementById("task-form");
     const formEditModal = document.getElementById("edit-form");
-    let textConfirmationAndNotification =
-        document.getElementById("modal-message");
-
+    
     //Ouverture du panneau  Sheet-panel
     sheetOpen.addEventListener("click", () => {
         sheetOverlay.classList.remove("hidden");
         document.body.classList.add("overflow-hidden");
         document.documentElement.classList.add("overflow-hidden");
 
+        sheetPanel.style.display='';
+        
         setTimeout(() => sheetPanel.classList.remove("translate-x-full"), 100);
     });
 
@@ -57,41 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    function clearErrors(form) {
-        //On supprime les anciens message d'erreurs.
-        form.querySelectorAll("[data-error-for]").forEach((el) => el.remove());
-
-        //On retire l'ancien surlignage des inputs
-        form.querySelectorAll("[data-has-error='true']").forEach((input) => {
-            input.classList.remove("border-red-500", "focus:ring-red-500");
-            input.removeAttribute("data-has-error");
-            input.removeAttribute("aria-invalid");
-        });
-    }
-
-    function displayErrors(form, errors) {
-        clearErrors(form);
-
-        Object.entries(errors).forEach(([field, message]) => {
-            const input = form.querySelector(`[name="${field}"]`);
-
-            if (!input) return;
-
-            //Le surlignage de l'input
-            input.classList.add("border-red-500", "focus:ring-red-500");
-            input.setAttribute("data-has-error", "true");
-            input.setAttribute("aria-invalid", "true");
-
-            //On fait <p> avec le message d'erreur.
-            const errorEl = document.createElement("p");
-            errorEl.textContent = message;
-            errorEl.className = "text-sm text-red-500";
-            errorEl.setAttribute("data-error-for", field);
-
-            input.insertAdjacentElement("afterend", errorEl);
-        });
-    }
-
+    
     //Envoi de la tache via Fetch et insertion dans le DOM
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -153,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         draggedTask = task;
         previousColumn = draggedTask.closest("[data-task-wrapper]");
-        task.classList.add("ring-2", "ring-blue-400/20");
+        task.classList.add("ring-2", "ring-white/30");
     });
 
     //event delegation
@@ -173,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // rollback
         if (previousColumn && draggedTask) {
             draggedTask.classList.add("animate-rollback");
-            draggedTask.classList.remove("ring-2", "ring-blue-400/20");
+            draggedTask.classList.remove("ring-2", "ring-white/30");
 
             const taskElement = draggedTask;
 
@@ -189,17 +156,17 @@ document.addEventListener("DOMContentLoaded", () => {
     columns.forEach((col) => {
         col.addEventListener("dragover", (event) => {
             event.preventDefault();
-            col.classList.add("ring-2", "ring-blue-400/20");
+            col.classList.add("ring-2", "ring-white/30");
         });
 
         col.addEventListener("dragleave", () => {
-            col.classList.remove("ring-2", "ring-blue-400/20");
+            col.classList.remove("ring-2", "ring-white/30");
         });
 
         col.addEventListener("drop", () => {
             const content = col.querySelector(".flex.flex-col.gap-3");
-            col.classList.remove("ring-2", "ring-blue-400/20");
-            draggedTask.classList.remove("ring-2", "ring-blue-400/20");
+            col.classList.remove("ring-2", "ring-white/30");
+            draggedTask.classList.remove("ring-2", "ring-white/30");
 
             if (draggedTask) {
                 content.appendChild(draggedTask);
@@ -255,6 +222,9 @@ document.addEventListener("DOMContentLoaded", () => {
         currentCard = card;
         currentTaskId = card.dataset.taskId;
 
+        document.body.classList.add("overflow-hidden");
+        document.documentElement.classList.add("overflow-hidden");
+
         const modalDelete = document.getElementById("modal-delete");
         modalDelete.classList.remove("hidden");
     });
@@ -262,53 +232,15 @@ document.addEventListener("DOMContentLoaded", () => {
     //Fermeture de ModalDelete
     closeModalDelete.forEach((close) => {
         close.addEventListener("click", () => {
+            document.body.classList.remove("overflow-hidden");
+            document.documentElement.classList.remove("overflow-hidden");
             modalDelete.classList.add("hidden");
         });
     });
 
-    function showConfirmationNotification({ message, type }) {
-        modalDelete.classList.add("hidden");
-        textConfirmationAndNotification.textContent = message;
-
-        if (type === "success") {
-            modalIcon.classList.add("bg-green-600/35");
-            document.querySelector(`[data-${type}]`).classList.remove("hidden");
-        }
-
-        if (type === "warning") {
-            modalIcon.classList.add("bg-yellow-600/35");
-            document.querySelector(`[data-${type}]`).classList.remove("hidden");
-        }
-
-        if (type === "error") {
-            modalIcon.classList.add("bg-red-600/35");
-            document.querySelector(`[data-${type}]`).classList.remove("hidden");
-        }
-        modalConfirmationNotification.classList.remove("hidden");
-
-        setTimeout(() => {
-            modalIcon.classList.remove("scale-0", "opacity-0", "blur-3xl");
-            modalIcon.classList.add("scale-100", "opacity-100", "blur-0");
-        }, 50);
-        setTimeout(() => {
-            modalConfirmationNotification.classList.add("hidden");
-            modalIcon.classList.add("scale-0", "opacity-0", "blur-3xl");
-            modalIcon.classList.remove(
-                "scale-100",
-                "opacity-100",
-                "blur-0",
-                "bg-green-600/35",
-                "bg-red-600/35",
-                "bg-yellow-600/35",
-            );
-            svg.forEach((svg) => svg.classList.add("hidden"));
-        }, 3000);
-
-        return;
-    }
-
     //Une suppression de tache
     confirmModalDelete.addEventListener("click", async () => {
+        modalDelete.classList.add("hidden");
         confirmModalDelete.disabled = true;
         spinnerModalDelete.classList.remove("hidden");
         try {
@@ -344,6 +276,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             return;
         } finally {
+            document.body.classList.remove("overflow-hidden");
+            document.documentElement.classList.remove("overflow-hidden");
             confirmModalDelete.disabled = false;
             spinnerModalDelete.classList.add("hidden");
         }
@@ -354,6 +288,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const btnEditTask = e.target.closest("[data-edit]");
 
         if (!btnEditTask) return;
+
+        document.body.classList.add("overflow-hidden");
+        document.documentElement.classList.add("overflow-hidden");
 
         const currentEditTask = btnEditTask.closest('[data-task="card"]');
         const id = currentEditTask.dataset.taskId;
@@ -417,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const idCard = document.querySelector(`[data-task-id="${idTask}"]`);
             idCard.outerHTML = data.html;
-
+            setTimeout(() => editModal.classList.add("hidden"), 5000);
             updateCounters();
         } catch (error) {
             showConfirmationNotification({
@@ -427,14 +364,15 @@ document.addEventListener("DOMContentLoaded", () => {
         } finally {
             btnConfirmEdit.disabled = false;
             spinnerEdit.classList.add("hidden");
-
-            // setTimeout(()=> editModal.classList.add("hidden"), 700);
         }
     });
 
     //Fermeture de EditModal
     closeEdit.forEach((close) => {
         close.addEventListener("click", () => {
+            clearErrors(formEditModal);
+            document.body.classList.remove("overflow-hidden");
+            document.documentElement.classList.remove("overflow-hidden");
             editModal.classList.add("hidden");
         });
     });

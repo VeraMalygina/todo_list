@@ -13,7 +13,7 @@
     </p>
 
    
-    {% if oneTask.author.id == app.user.id %}
+    {% if app.user and oneTask.author.id == app.user.id %}
         <button
             class="h-6 w-6 absolute top-4 right-12 transition-all duration-300 ease-out hover:text-zinc-400"
             data-edit

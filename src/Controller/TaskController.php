@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final class TaskController extends AbstractController
 {
-    #[Route('/tasks', name: 'app_tasks')]
+    #[Route('/', name: 'app_tasks')]
     public function index(
         TaskRepository $taskRepository
         ): Response
