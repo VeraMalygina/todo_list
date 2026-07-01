@@ -4,12 +4,12 @@
 
     {% block body %}
 
-   <div class="fixed inset-0 mx-auto my-auto -z-20 bg-[url('/images/kanban-bg.png')] bg-cover bg-[position:10%_center] sm:bg-[position:40%_center] md:bg-center bg-no-repeat  "></div>
+   <div class="fixed inset-0 mx-auto my-auto z-[10] bg-[url('/images/kanban-bg.png')] bg-cover bg-[position:10%_center] sm:bg-[position:40%_center] md:bg-center bg-no-repeat  "></div>
 
-    <div class="fixed inset-0 -z-10 bg-black/30"></div>
+    <div class="fixed inset-0 z-[20] bg-black/30"></div>
 
     <main
-        class=" min-h-dvh flex items-center justify-center w-full mx-auto my-auto max-w-screen-2xl  px-4 sm:px-6  lg:px-10 py-8"
+        class=" min-h-dvh  z-[30] flex  items-center justify-center w-full mx-auto my-auto max-w-screen-2xl  px-4 sm:px-6  lg:px-10 py-8"
     >
       {% block content %}{% endblock %}
         

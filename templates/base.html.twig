@@ -5,6 +5,70 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>{% block title %}TodoList{% endblock %}</title>
+
+        <style>
+            html,
+            body {
+                margin: 0;
+                background:rgb(31,39,50);
+                min-height: 100%;
+            };
+            body {
+                overflow: hidden;
+            }
+
+           
+            #app {
+                visibility: hidden;
+                opacity: 0;
+            }
+
+            
+
+            #preloader {
+                position:fixed;
+                inset: 0;
+                z-index: 999999;            
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgb(31,39,50);
+                transition: opacity 0.25s ease, visibility 0.25s ease;
+            }
+
+            .preloader-image {
+                display: block;
+                width: clamp(120px, 20vw, 340px);
+                height: clamp(120px, 20vw, 340px);
+                object-fit: contain;
+            }
+
+
+            html.app-ready body {
+                overflow: auto;    
+            }
+
+            html.app-ready #app {
+                visibility: visible;
+                opacity: 1;
+                            
+            }
+            html.app-ready #preloader {
+                visibility: hidden;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.25s ease, visibility 0.25s ease;
+            };
+
+            
+        </style>
+
+        <link
+            rel="preload"
+            as="image"
+            href="{{ asset('images/kanban-bg.png') }}"
+            fetchpriority="high"
+        />
         <link
             rel="icon"
             href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"
@@ -20,13 +84,27 @@
         {% endblock %}
     </head>
     <body >
+        <div id="preloader">
+            <img src="/images/preloader.svg" alt="preloader" class="preloader-image">  
+        </div>
 
-        {% if app.user %}
+        <div id="app" >
+            {% if app.user %}
             {% include 'components/_navbar_user.html.twig' %}
-        {%else%}
-            {% include 'components/_navbar_guest.html.twig' %}
-        {%endif%}
+            {%else%}
+                {% include 'components/_navbar_guest.html.twig' %}
+            {%endif%}
 
-        {% block body %}{% endblock %}
+            {% block body %}{% endblock %}
+        </div>
+
+        <script>
+            function showApp() {
+                document.documentElement.classList.add('app-ready');
+            }
+
+            window.addEventListener('load', showApp);
+        </script>
+        
     </body>
 </html>

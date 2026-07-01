@@ -19,4 +19,10 @@ class InfoController extends AbstractController
     {
         return $this->render('/privacy/privacy.html.twig');
     }
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(): Response
+    {
+        return $this->render('/contact/contact.html.twig');
+    }
 }

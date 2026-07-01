@@ -16,5 +16,8 @@
         "tailwindcss": "^3.4.19",
         "vite": "^6.0",
         "vite-plugin-symfony": "^8.2"
+    },
+    "dependencies": {
+        "sortablejs": "^1.15.7"
     }
 }

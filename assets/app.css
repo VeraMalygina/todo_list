@@ -7,9 +7,7 @@ body {
     color: white;
 }
 
-summary::-webkit-details-marker {
-    display: none;
-}
+
 
 @layer utilities {
     @keyframes rollback {

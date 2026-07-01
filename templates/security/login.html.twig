@@ -4,12 +4,14 @@
 
 {% block content %}
 
-   <section class="flex flex-col gap-6 w-full max-w-[420px]">
+   <section class="flex z-[30] flex-col gap-6 w-full max-w-[420px]">
+
+        <h1 class="text-4xl md:text-5xl  font-bold text-center">Veuillez vous connecter</h1>
 
         <form action="{{ path('app_login') }}"  method="post" class="w-full mx-auto space-y-4 opacity-100  ">
             
                  
-            <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl text-center">Veuillez vous connecter</h1>
+            
             <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
             <label for="username" class="block text-sm font-medium">Email</label>

@@ -1,0 +1,85 @@
+{% extends 'background_layout/layout.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+
+{% block body %}
+<section class="min-h-screen bg-[rgb(31,39,50)] mt-6 text-white px-6 py-16 z-[30]">
+    <div class="max-w-4xl mx-auto">
+        <div class="mb-12 text-center">
+            <p class="text-sm uppercase tracking-[0.3em] text-slate-400 mb-4">
+                Contact
+            </p>
+
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                Nous contacter
+            </h1>
+
+            <p class="text-slate-300 text-lg max-w-2xl mx-auto">
+                Une question, un problème technique ou une demande concernant votre compte ?
+                Vous pouvez nous contacter directement par e-mail.
+            </p>
+        </div>
+
+        <div class="bg-slate-900/60 border border-slate-700 rounded-3xl p-8 md:p-10 shadow-2xl">
+            <div class="grid gap-8 md:grid-cols-2 items-start">
+                <div>
+                    <h2 class="text-2xl font-semibold mb-4">
+                        Assistance par e-mail
+                    </h2>
+
+                    <p class="text-slate-300 mb-6 leading-relaxed">
+                        Pour toute demande liée à l’utilisation de TodoList, à votre compte,
+                        à vos données personnelles ou à un problème rencontré sur la plateforme,
+                        envoyez-nous un message à l’adresse suivante :
+                    </p>
+
+                    <a
+                        href="mailto:malygina.vera95@bk.ru?subject=Contact%20TodoList"
+                        class="inline-flex items-center justify-center rounded-xl bg-white text-slate-900 px-6 py-3 font-semibold hover:bg-slate-200 transition"
+                    >
+                        malygina.vera95@bk.ru
+                    </a>
+                </div>
+
+                <div class="bg-slate-800/70 rounded-2xl p-6 border border-slate-700">
+                    <h3 class="text-lg font-semibold mb-4">
+                        Pour nous aider à traiter votre demande
+                    </h3>
+
+                    <ul class="space-y-3 text-slate-300">
+                        <li class="flex gap-3">
+                            <span class="text-white">•</span>
+                            <span>Indiquez l’objet de votre message.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-white">•</span>
+                            <span>Décrivez clairement le problème rencontré.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-white">•</span>
+                            <span>Ajoutez, si nécessaire, une capture d’écran.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-white">•</span>
+                            <span>N’envoyez jamais votre mot de passe par e-mail.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 text-center text-slate-400 text-sm">
+            <p>
+                Les informations transmises par e-mail sont utilisées uniquement pour répondre à votre demande.
+            </p>
+
+            <p class="mt-2">
+                Pour en savoir plus, consultez notre
+                <a href="{{ path('privacy') }}" class="text-white underline underline-offset-4 hover:text-slate-300">
+                    politique de confidentialité
+                </a>.
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

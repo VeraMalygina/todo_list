@@ -1,5 +1,9 @@
+import Sortable from "sortablejs"; // Default SortableJS
 import { showConfirmationNotification } from "../shared/confirmation_notification.js";
-import { clearErrors, displayErrors } from "../shared/clear_et_display_errors.js";
+import {
+    clearErrors,
+    displayErrors,
+} from "../shared/clear_et_display_errors.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const pageTasks = document.querySelector('[data-page="tasks"]');
@@ -24,25 +28,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const spinnerModalDelete = document.querySelector(
         "[data-spinner-modal-delete]",
     );
-    
-    
 
     let currentCard = null;
     let currentTaskId = null;
-    
+
     const editModal = document.querySelector("[data-edit-overlay]");
     const closeEdit = document.querySelectorAll("[data-close-edit]");
     const formCreateTask = document.getElementById("task-form");
     const formEditModal = document.getElementById("edit-form");
-    
+
     //Ouverture du panneau  Sheet-panel
     sheetOpen.addEventListener("click", () => {
         sheetOverlay.classList.remove("hidden");
         document.body.classList.add("overflow-hidden");
         document.documentElement.classList.add("overflow-hidden");
 
-        sheetPanel.style.display='';
-        
+        sheetPanel.style.display = "";
+
         setTimeout(() => sheetPanel.classList.remove("translate-x-full"), 100);
     });
 
@@ -58,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    
     //Envoi de la tache via Fetch et insertion dans le DOM
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -67,37 +68,43 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         const formData = new FormData(form);
 
-        const response = await fetch("/tasks/create", {
-            method: "POST",
-            body: formData,
-        });
+        try {
+            const response = await fetch("/tasks/create", {
+                method: "POST",
+                body: formData,
+            });
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (!response.ok) {
-            if (data.errors) {
-                displayErrors(formCreateTask, data.errors);
-            } else {
-                showConfirmationNotification({
-                    message: data.message,
-                    type: data.type,
-                });
+            if (!response.ok) {
+                if (data.errors) {
+                    displayErrors(formCreateTask, data.errors);
+                } else {
+                    showConfirmationNotification({
+                        message: data.message,
+                        type: data.type,
+                    });
+                }
+                return;
             }
 
-            return;
+            document.body.classList.remove("overflow-hidden");
+            document.documentElement.classList.remove("overflow-hidden");
+            clearErrors(formCreateTask);
+            setTimeout(() => {
+                columnTodo.insertAdjacentHTML("beforeend", data.html);
+                updateCounters();
+                form.reset();
+                sheetPanel.classList.add("translate-x-full");
+            }, 500);
+
+            setTimeout(() => sheetOverlay.classList.add("hidden"), 700);
+        } catch (error) {
+            showConfirmationNotification({
+                message: "Serveur temporairement indisponible.",
+                type: "error",
+            });
         }
-
-        document.body.classList.remove("overflow-hidden");
-        document.documentElement.classList.remove("overflow-hidden");
-        clearErrors(formCreateTask);
-        setTimeout(() => {
-            columnTodo.insertAdjacentHTML("beforeend", data.html);
-            updateCounters();
-            form.reset();
-            sheetPanel.classList.add("translate-x-full");
-        }, 500);
-
-        setTimeout(() => sheetOverlay.classList.add("hidden"), 700);
     });
 
     let draggedTask = null;

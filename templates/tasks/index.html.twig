@@ -1,6 +1,6 @@
 {% extends 'background_layout/layout.html.twig' %} 
 {% block content %}
-<section data-page="tasks" class="min-h-[calc(100dvh-4rem)] bg-[rgb(30,38,49)]/50 backdrop-blur-sm w-full px-3 py-6 mt-16 rounded-lg 2xl:backdrop-blur-none">
+<section data-page="tasks" class="min-h-[calc(100dvh-4rem)] bg-[rgb(30,38,49)]/50 backdrop-blur-sm w-full px-3 py-6 mt-16 rounded-lg z-[30] 2xl:backdrop-blur-none">
    
         
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 ">
@@ -12,7 +12,7 @@
             class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col"
         >
             <header class="flex items-center justify-between mb-4 min-h-8">
-                <h3 class="   font-medium">À faire</h3>
+                <h3 class="uppercase tracking-[0.25em] ">À faire</h3>
                 <div class="flex items-center justify-center gap-2">
                     <span
                         data-counter
@@ -63,7 +63,7 @@
             class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col "
         >
             <header class="flex justify-between items-center mb-4 min-h-8">
-                <h3 class=" font-medium">En cours</h3>
+                <h3 class="uppercase tracking-[0.25em]">En cours</h3>
                 <div class="flex items-center justify-center gap-2">
                     <span
                         data-counter
@@ -90,7 +90,7 @@
             class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col"
         >
             <header class="flex items-center justify-between mb-4 min-h-8">
-                <h3 class=" font-medium">Terminé</h3>
+                <h3 class="uppercase tracking-[0.25em]">Terminé</h3>
                 <div class="flex items-center gap-2">
                     <span
                         data-counter

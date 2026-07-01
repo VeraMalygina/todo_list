@@ -5,10 +5,10 @@
     data-title="{{ oneTask.title }}"
     data-description="{{ oneTask.description }}"
     data-due-date="{{ oneTask.dueDate|date('Y-m-d') }}"
-    class="bg-[rgb(30,38,49)]/90 border  relative rounded-lg p-3 hover:shadow cursor-grab active:cursor-grabbing active:scale-90 active:shadow-2xl transition-all"
+    class="select-none  bg-[rgba(30,38,49,0.7)] border  relative rounded-lg p-3 hover:shadow cursor-grab active:cursor-grabbing active:scale-90 active:shadow-2xl transition-all"
 >
-    <h4 class="break-words whitespace-normal pr-16 text-md ">{{ oneTask.title }}</h4>
-    <p class=" text-xs mt-1 break-words whitespace-normal">
+    <h4 class="break-words whitespace-normal pr-16 text-lg ">{{ oneTask.title }}</h4>
+    <p class=" text-base mt-1 break-words whitespace-normal">
         {{ oneTask.description }}
     </p>
 
@@ -36,7 +36,7 @@
         </button>
 
         <button
-            class="h-6 w-6 absolute top-4 right-4   transition-all duration-300 ease-out hover:text-red-700"
+            class="h-6 w-6 absolute top-4 right-4 transition-all duration-300 ease-out hover:text-red-700"
             
             data-action="delete-task"
             type="button"

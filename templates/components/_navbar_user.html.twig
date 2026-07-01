@@ -6,7 +6,7 @@
             <div class="flex-1">
                 <a
                     href="{{ path('app_tasks') }}"
-                    class="btn btn-ghost text-lg md:text-xl hover:bg-transparent"
+                    class="btn btn-ghost uppercase tracking-[0.25em] text-lg md:text-xl hover:bg-transparent "
                     >Liste de tâches</a
                 >
             </div>
@@ -30,39 +30,46 @@
                     </div>
                     <ul
                         tabindex="-1"
-                        class="menu menu-sm dropdown-content bg-[rgb(18,27,39)] rounded-box mt-3 w-52 p-2 shadow"
+                        class="menu menu-md dropdown-content bg-[rgb(18,27,39)] rounded-box mt-3 w-64 p-2 shadow "
                     >
                         <li>
                             <a
-                                class="justify-between hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                class=" uppercase tracking-[0.25em] justify-between hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
                             >
                                 Profile
                             </a>
                         </li>
                         <li>
                             <a
+                                href="{{ path('app_tasks') }}"
+                                class="uppercase tracking-[0.25em] hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                >Tableau de tâches</a
+                            >
+                        </li>
+                        <li>
+                            <a
                                 href="{{ path('about') }}"
-                                class="hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                class="uppercase tracking-[0.25em] hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
                                 >À propos</a
                             >
                         </li>
                         <li>
                             <a
                                 href="{{ path('privacy') }}"
-                                class="hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                class="uppercase tracking-[0.25em] hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
                                 >Politique de confidentialité</a
                             >
                         </li>
                         <li>
                             <a
-                                class="hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                class="uppercase tracking-[0.25em] hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
                                 >Settings</a
                             >
                         </li>
                         <li>
                             <a
                                 href="{{ logout_path() }}"
-                                class="hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
+                                class="uppercase tracking-[0.25em] hover:!bg-[rgb(11,30,52)] hover:translate-x-1 transition-all duration-600"
                                 >Logout</a
                             >
                         </li>
