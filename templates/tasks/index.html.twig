@@ -1,15 +1,46 @@
 {% extends 'background_layout/layout.html.twig' %} 
 {% block content %}
-<section data-page="tasks" class="min-h-[calc(100dvh-4rem)] bg-[rgb(30,38,49)]/50 backdrop-blur-sm w-full px-3 py-6 mt-16 rounded-lg z-[30] 2xl:backdrop-blur-none">
+
+
+<style>
+    [data-page="tasks"] [data-task="card"] {
+        background: rgba(30, 38, 49, 0.92) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 0.5rem !important;
+        padding: 0.75rem !important;
+        position: relative !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        transition: all 150ms ease !important;
+    }
+
+    [data-page="tasks"] [data-task="card"] h4 {
+        word-break: break-word;
+        white-space: normal;
+        padding-right: 7rem;
+        font-size: 1.125rem;
+        line-height: 1.75rem;
+    }
+
+    [data-page="tasks"] [data-task="card"] p {
+        margin-top: 0.25rem;
+        word-break: break-word;
+        white-space: normal;
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+</style>
+
+
+<section data-page="tasks" class=" bg-[rgba(30,38,49,0.5)] border-spacing-x-32 backdrop-blur-sm w-full px-3 py-6 mt-16 rounded-lg z-[30] 2xl:backdrop-blur-none">
    
         
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 ">
+    <div data-board class="flex gap-5 overflow-x-auto md:grid md:grid-cols-3 md:gap-5 md:overflow-visible ">
 
         <!-- COLONNE : À FAIRE -->
         <section
-            data-status="todo"
-            data-dropzone="true"
-            class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col"
+            data-column
+            class="min-w-[86vw] rounded-xl shadow-sm p-4 flex flex-col min-h-[50vh] md:min-w-0 md:min-h-[100vh]"
         >
             <header class="flex items-center justify-between mb-4 min-h-8">
                 <h3 class="uppercase tracking-[0.25em] ">À faire</h3>
@@ -48,7 +79,8 @@
 
             <div
                 data-task-wrapper
-                class="flex flex-col gap-3 "
+                data-status="todo"
+                class="flex flex-col gap-3 h-full"
             >
                 {% for oneTask in todoTasks %} {% include
                 'components/_card.html.twig' with { task: oneTask} %} {% endfor
@@ -58,9 +90,9 @@
 
         <!-- COLONNE : EN COURS -->
         <section
-            data-status="in_progress"
-            data-dropzone="true"
-            class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col "
+            
+            data-column
+            class="min-w-[86vw] rounded-xl shadow-sm p-4 flex flex-col min-h-[50vh] md:min-w-0 md:min-h-[100vh]"
         >
             <header class="flex justify-between items-center mb-4 min-h-8">
                 <h3 class="uppercase tracking-[0.25em]">En cours</h3>
@@ -75,7 +107,8 @@
 
             <div
                 data-task-wrapper
-                class="flex flex-col gap-3  "
+                data-status="in_progress"
+                class="flex flex-col gap-3 h-full"
             >
                 {% for oneTask in inProgressTasks %} {% include
                 'components/_card.html.twig' with { task: oneTask} %} {% endfor
@@ -85,9 +118,9 @@
 
         <!-- COLONNE : TERMINÉ -->
         <section
-            data-status="done"
-            data-dropzone="true"
-            class="bg-[rgb(30,38,49)]/55 rounded-xl shadow-sm p-4 flex flex-col"
+            
+            data-column
+            class="min-w-[86vw] rounded-xl shadow-sm p-4 flex flex-col min-h-[50vh] md:min-w-0 md:min-h-[100vh]"
         >
             <header class="flex items-center justify-between mb-4 min-h-8">
                 <h3 class="uppercase tracking-[0.25em]">Terminé</h3>
@@ -102,7 +135,8 @@
 
             <div
                 data-task-wrapper
-                class="flex flex-col gap-3 "
+                data-status="done"
+                class="flex flex-col gap-3 h-full"
             >
                 {% for oneTask in doneTasks %} {% include
                 'components/_card.html.twig' with { task: oneTask} %} {% endfor

@@ -29,7 +29,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'You should agree to our terms.',
+                        'message' => "Vous devez accepter nos conditions d’utilisation.",
                     ]),
                 ],
             ])
@@ -40,11 +40,11 @@ class RegistrationFormType extends AbstractType
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Veuillez saisir un mot de passe.',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.', 
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
@@ -64,7 +64,7 @@ class RegistrationFormType extends AbstractType
                             'jpeg',
                             'webp',
                         ],
-                        'extensionsMessage' => 'The extension of the file is invalid ({{ extension }}). Allowed extensions are {{ extensions }}.',
+                        'extensionsMessage' => "L'extension du fichier est invalide ({{ extension }}). Les extensions autorisées sont : {{ extensions }}.",
                         'maxSize' => '2M',
                         'maxSizeMessage' => 'Le fichier est trop volumineux ({{ size }} {{ suffix }}). La taille maximale est de {{ limit }} {{ suffix }}.',
                         'uploadErrorMessage' => 'Erreur lors du téléchargement du fichier.',

@@ -7,7 +7,31 @@ body {
     color: white;
 }
 
+.task-drag {
+    opacity: 0.8;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
 
+.task-chosen {
+    cursor: grabbing;
+}
+
+.task-ghost {
+    opacity: 0.7;
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid;
+}
+.task-fallback {
+    cursor: grabbing;
+    opacity: 0.95;
+    background: rgba(30, 38, 49, 0.92);
+    border: 1px solid rgba(147, 197, 253, 0.8);
+    box-shadow:
+        0 2px 15px rgba(255, 255, 255, 0.75),
+        0 0 5px rgba(204, 176, 145, 0.55);
+    backdrop-filter: blur(10px);
+    transform: rotate(1deg) scale(1.02);
+}
 
 @layer utilities {
     @keyframes rollback {
@@ -28,3 +52,5 @@ body {
         animation: rollback 0.45s ease;
     }
 }
+
+

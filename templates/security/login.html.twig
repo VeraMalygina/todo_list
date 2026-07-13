@@ -8,40 +8,35 @@
 
         <h1 class="text-4xl md:text-5xl  font-bold text-center">Veuillez vous connecter</h1>
 
-        <form action="{{ path('app_login') }}"  method="post" class="w-full mx-auto space-y-4 opacity-100  ">
+        <form action="{{ path('app_login') }}"  method="post" class="w-full mx-auto opacity-100">
             
                  
             
             <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
 
-            <label for="username" class="block text-sm font-medium">Email</label>
+            <label for="username" class="block text-sm font-medium mb-1">Email</label>
             <input 
                 type="email" 
                 value="{{ last_username }}" 
                 name="_username" 
                 id="username" 
-                class=" bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:ring-2 focus:outline-none focus:ring-sky-950 active:bg-none" 
+                class=" bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:ring-2 focus:outline-none focus:ring-sky-950 active:bg-none mb-7" 
                 autocomplete="email" 
                 required 
                 autofocus
             >
 
-            <label for="password" class="block text-sm font-medium ">Mot de passe</label>
+            <label for="password" class="block text-sm font-medium mb-1">Mot de passe</label>
             <input 
                 type="password" 
                 name="_password" 
                 id="password" 
-                class="bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:outline-none focus:ring-2  focus:ring-sky-950" 
+                class="bg-[#78808e]/70 w-full p-2 border rounded-lg focus:bg-[#78808e]/70 focus:outline-none focus:ring-2  focus:ring-sky-950 mb-5" 
                 autocomplete="current-password" 
                 required
             >
 
-            <input 
-                type="hidden" 
-                name="_csrf_token" 
-                data-controller="csrf-protection" 
-                value="{{ csrf_token('authenticate') }}"
-            >
+            
 
             {#
                 <div class="flex items-center gap-2 ">
@@ -64,7 +59,6 @@
                 Se connecter
             </button>
 
-            
         </form>
 
         <div class="flex flex-col sm:flex-row  sm:gap-1 justify-center items-center">

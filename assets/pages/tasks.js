@@ -1,4 +1,5 @@
-import Sortable from "sortablejs"; // Default SortableJS
+import Sortable, { AutoScroll } from "sortablejs/modular/sortable.core.esm.js";
+Sortable.mount(new AutoScroll());
 import { showConfirmationNotification } from "../shared/confirmation_notification.js";
 import {
     clearErrors,
@@ -19,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const sheetPanel = document.querySelector("[data-sheet-panel]");
     const sheetCloses = document.querySelectorAll("[data-sheet-close]");
     const form = document.getElementById("task-form");
+    const taskWrapper = document.querySelectorAll("[data-task-wrapper]");
+    const scrollBoard = document.querySelector("[data-board]");
 
     const modalDelete = document.getElementById("modal-delete");
     const closeModalDelete = document.querySelectorAll(
@@ -29,13 +32,13 @@ document.addEventListener("DOMContentLoaded", () => {
         "[data-spinner-modal-delete]",
     );
 
-    let currentCard = null;
-    let currentTaskId = null;
-
     const editModal = document.querySelector("[data-edit-overlay]");
     const closeEdit = document.querySelectorAll("[data-close-edit]");
     const formCreateTask = document.getElementById("task-form");
     const formEditModal = document.getElementById("edit-form");
+
+    let currentTaskId = null;
+    let currentCard = null;
 
     //Ouverture du panneau  Sheet-panel
     sheetOpen.addEventListener("click", () => {
@@ -64,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const columnTodo = document.querySelector(
-            '[data-status="todo"] [data-task-wrapper]',
+            '[data-status="todo"][data-task-wrapper]',
         );
         const formData = new FormData(form);
 
@@ -107,128 +110,133 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    let draggedTask = null;
-    let previousColumn = null;
-
     function updateCounters() {
-        document.querySelectorAll('[data-dropzone="true"]').forEach((col) => {
-            const content = col.querySelector(".flex.flex-col.gap-3");
-            const count = content.querySelectorAll('[draggable="true"]').length;
+        document.querySelectorAll("[data-task-wrapper]").forEach((col) => {
+            const count = col.querySelectorAll('[data-task="card"]').length;
 
-            const counter = col.querySelector("[data-counter]");
+            const column = col.closest("[data-column]");
+            const counter = column.querySelector("[data-counter]");
             counter.textContent = count;
         });
     }
-
-    //event delegation
-    document.addEventListener("dragstart", (e) => {
-        const task = e.target.closest('[draggable="true"]');
-        if (!task) return;
-
-        draggedTask = task;
-        previousColumn = draggedTask.closest("[data-task-wrapper]");
-        task.classList.add("ring-2", "ring-white/30");
-    });
-
-    //event delegation
-    document.addEventListener("dragend", (e) => {
-        const task = e.target.closest('[draggable="true"]');
-
-        if (!task) return;
-
-        task.classList.add("animate-rollback");
-
-        setTimeout(() => {
-            task.classList.remove("animate-rollback");
-        }, 450);
-    });
-
-    function rollbackTask() {
-        // rollback
-        if (previousColumn && draggedTask) {
-            draggedTask.classList.add("animate-rollback");
-            draggedTask.classList.remove("ring-2", "ring-white/30");
-
-            const taskElement = draggedTask;
-
-            setTimeout(() => {
-                taskElement.classList.remove("animate-rollback");
-            }, 450);
-            previousColumn.appendChild(taskElement);
-            updateCounters();
-        }
-    }
-
-    //Surbrillance des cartes, des colonnes et envoi des donnees au serveur lors du changement de statut d'une carte.
-    columns.forEach((col) => {
-        col.addEventListener("dragover", (event) => {
-            event.preventDefault();
-            col.classList.add("ring-2", "ring-white/30");
-        });
-
-        col.addEventListener("dragleave", () => {
-            col.classList.remove("ring-2", "ring-white/30");
-        });
-
-        col.addEventListener("drop", () => {
-            const content = col.querySelector(".flex.flex-col.gap-3");
-            col.classList.remove("ring-2", "ring-white/30");
-            draggedTask.classList.remove("ring-2", "ring-white/30");
-
-            if (draggedTask) {
-                content.appendChild(draggedTask);
-                updateCounters();
-            }
-
-            const taskId = draggedTask.dataset.taskId;
-            const newStatus = col.dataset.status;
-
-            fetch("/tasks/move", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                body: JSON.stringify({
-                    taskId: taskId,
-                    status: newStatus,
-                }),
-            })
-                .then(async (response) => {
-                    const data = await response.json();
-                    if (!response.ok) {
-                        showConfirmationNotification({
-                            message: data.message,
-                            type: data.type,
-                        });
-                        rollbackTask();
-                        return;
-                    }
-                    return response;
-                })
-                .catch(() => {
-                    showConfirmationNotification({
-                        message: "Serveur temporairement indisponible.",
-                        type: "error",
-                    });
-
-                    rollbackTask();
-                    previousColumn = null;
-                    draggedTask = null;
-                });
-        });
-    });
     updateCounters();
 
+    taskWrapper.forEach((wrapper) => {
+        Sortable.create(wrapper, {
+            group: "tasks",
+            sort: true,
+            animation: 150,
+
+            draggable: '[data-task="card"]',
+            handle: "[data-drag-handle]",
+
+            scroll: scrollBoard,
+            bubbleScroll: false,
+            scrollSensitivity: 100,
+            scrollSpeed: 10,
+
+            delayOnTouchOnly: true,
+            delay: 180,
+            touchStartThreshold: 5,
+
+            forceFallback: true,
+
+            fallbackClass: "task-fallback", // Class name for the cloned DOM Element when using forceFallback
+            fallbackOnBody: true, // Appends the cloned DOM Element into the Document's Body
+            fallbackTolerance: 3, // Specify in pixels how far the mouse should move before it's considered as a drag.
+
+            ghostClass: "task-ghost",
+            chosenClass: "task-chosen",
+            dragClass: "task-drag",
+
+            onEnd: function (evt) {
+                const task = evt.item; // dragged HTMLElement
+
+                const newColumn = evt.to; // target list
+                const previousColumn = evt.from; // previous list
+                const oldIndex = evt.oldIndex; // element's old index within old parent
+
+                const oldStatus =
+                    previousColumn.closest("[data-status]").dataset.status;
+                const newStatus =
+                    newColumn.closest("[data-status]").dataset.status;
+
+                if (newColumn === previousColumn) {
+                    return;
+                }
+
+                const taskId = task.dataset.taskId;
+
+                function rollbackTask(task, previousColumn, oldIndex) {
+                    task.classList.add("animate-rollback");
+
+                    const cards =
+                        previousColumn.querySelectorAll('[data-task="card"]');
+
+                    const referenceCard = cards[oldIndex] || null;
+
+                    previousColumn.insertBefore(task, referenceCard);
+
+                    setTimeout(() => {
+                        task.classList.remove("animate-rollback");
+                    }, 450);
+                }
+
+                fetch("/tasks/move", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                    body: JSON.stringify({
+                        taskId: taskId,
+                        status: newStatus,
+                    }),
+                })
+                    .then(async (response) => {
+                        const data = await response.json();
+                        if (!response.ok) {
+                            showConfirmationNotification({
+                                message: data.message,
+                                type: data.type,
+                            });
+                            rollbackTask(task, previousColumn, oldIndex);
+                            updateCounters();
+                            return;
+                        }
+                        updateCounters();
+                        return response;
+                    })
+                    .catch(() => {
+                        showConfirmationNotification({
+                            message: "Serveur temporairement indisponible.",
+                            type: "error",
+                        });
+                        rollbackTask(task, previousColumn, oldIndex);
+                        updateCounters();
+                    });
+
+                if (newColumn) {
+                    scrollBoard.scrollTo({
+                        left:
+                            newColumn.offsetLeft -
+                            (scrollBoard.clientWidth - newColumn.offsetWidth),
+                        behavior: "auto",
+                    });
+                }
+            },
+        });
+    });
+
     //Ouverture de ModalDelete
-    document.addEventListener("mousedown", (e) => {
+    document.addEventListener("click", (e) => {
         const btnDelete = e.target.closest('[data-action="delete-task"]');
         if (!btnDelete) return;
 
         const card = btnDelete.closest('[data-task="card"]');
         currentCard = card;
         currentTaskId = card.dataset.taskId;
-
+       
         document.body.classList.add("overflow-hidden");
         document.documentElement.classList.add("overflow-hidden");
 
@@ -250,6 +258,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalDelete.classList.add("hidden");
         confirmModalDelete.disabled = true;
         spinnerModalDelete.classList.remove("hidden");
+
         try {
             const response = await fetch(`/tasks/${currentTaskId}/delete`, {
                 method: "DELETE",
@@ -287,6 +296,9 @@ document.addEventListener("DOMContentLoaded", () => {
             document.documentElement.classList.remove("overflow-hidden");
             confirmModalDelete.disabled = false;
             spinnerModalDelete.classList.add("hidden");
+            currentTaskId = null;
+            currentCard = null;
+           
         }
     });
 
